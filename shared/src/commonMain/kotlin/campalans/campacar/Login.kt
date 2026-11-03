@@ -11,6 +11,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
+import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -21,6 +22,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,12 +30,15 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
+import campalans.campacar.ApiClient.comprovarLogin
+import kotlinx.coroutines.launch
 
 @Composable
 fun Login(){
     var contrasenya by remember { mutableStateOf("") }
     var usuari by remember { mutableStateOf("") }
     var contrasenyaVisible by remember { mutableStateOf(false) }
+    val scope = rememberCoroutineScope()
     Scaffold {
         Box(modifier = Modifier.fillMaxWidth().fillMaxHeight()){
             Column(modifier = Modifier.align(Alignment.Center)) {
@@ -43,14 +48,14 @@ fun Login(){
                         TextField(
                             value = usuari,
                             onValueChange = { usuari = it },
-                            label = { Text("Usuario") },
+                            label = { Text("Usuari") },
                             keyboardOptions = KeyboardOptions(
                                 keyboardType = KeyboardType.Text
                             ),
                             trailingIcon = {
                                 Icon(
                                     imageVector = Icons.Filled.Person,
-                                    contentDescription = "Icono de usuario"
+                                    contentDescription = "Icona d'usuari"
                                 )
                             }
                         )
@@ -60,7 +65,7 @@ fun Login(){
                 TextField(
                     value = contrasenya,
                     onValueChange = { contrasenya = it },
-                    label = { Text("Contraseña") },
+                    label = { Text("Contrasenya") },
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Password
                     ),
@@ -75,13 +80,26 @@ fun Login(){
                         else
                             Icons.Filled.VisibilityOff
 
-                        val description = if (contrasenyaVisible) "Ocultar" else "Mostrar"
+                        val descripcio = if (contrasenyaVisible) "Ocultar" else "Mostrar"
 
                         IconButton(onClick = { contrasenyaVisible = !contrasenyaVisible }) {
-                            Icon(imageVector = image, contentDescription = description)
+                            Icon(imageVector = image, contentDescription = descripcio)
                         }
                     }
                 )
+
+                Spacer(modifier = Modifier.height(8.dp))
+                Button(
+                    onClick = {
+                        scope.launch {
+                            val valid = comprovarLogin(usuari, contrasenya)
+                            usuari = if (valid) "be" else "error"
+                        }
+                    },
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                ) {
+                    Text("Iniciar sessió")
+                }
             }
         }
     }
