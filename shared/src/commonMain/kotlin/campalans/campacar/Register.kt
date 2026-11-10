@@ -84,8 +84,6 @@ fun Register() {
             // Horari
             Text("Horari")
 
-            Text("Horari")
-
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -111,7 +109,6 @@ fun Register() {
             Spacer(modifier = Modifier.height(8.dp))
 
             // Rol
-            Text("Rol")
 
             Text("Rol")
 
@@ -225,7 +222,7 @@ fun Register() {
 
                     scope.launch {
 
-                        // TODO funcio registre per la api
+                        ApiClient.registrarUsuari(nom, cognom1, cognom2, horari, rol, cotxe, ubicacio, mail, telf, passwd)
 
                     }
 

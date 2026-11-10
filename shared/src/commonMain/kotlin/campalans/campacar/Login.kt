@@ -107,7 +107,7 @@ fun Login(){
 
                             modifier = Modifier.align(Alignment.CenterHorizontally)
                         ) {
-                            Text("Iniciar sessió")
+                            Text("Registrar")
                         }
 
                         Button(
@@ -119,7 +119,7 @@ fun Login(){
                             },
                             modifier = Modifier.align(Alignment.CenterHorizontally)
                         ) {
-                            Text("Registrar")
+                            Text("Iniciar sessió")
                         }
                     }
                 }
