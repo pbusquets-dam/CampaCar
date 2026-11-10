@@ -39,10 +39,18 @@ fun Login(){
     var usuari by remember { mutableStateOf("") }
     var contrasenyaVisible by remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
-    Scaffold {
-        Box(modifier = Modifier.fillMaxWidth().fillMaxHeight()){
-            Column(modifier = Modifier.align(Alignment.Center)) {
-                Text("Login", style = MaterialTheme.typography.displayLarge, modifier = Modifier.align(Alignment.CenterHorizontally))
+    var login = remember { mutableStateOf(false) }
+        if (login.value) {
+            Main()
+        } else {
+            Scaffold {
+                Box(modifier = Modifier.fillMaxWidth().fillMaxHeight()) {
+                    Column(modifier = Modifier.align(Alignment.Center)) {
+                        Text(
+                            "Login",
+                            style = MaterialTheme.typography.displayLarge,
+                            modifier = Modifier.align(Alignment.CenterHorizontally)
+                        )
                         Spacer(modifier = Modifier.height(16.dp))
 
                         TextField(
@@ -62,45 +70,46 @@ fun Login(){
 
                         Spacer(modifier = Modifier.height(8.dp))
 
-                TextField(
-                    value = contrasenya,
-                    onValueChange = { contrasenya = it },
-                    label = { Text("Contrasenya") },
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Password
-                    ),
-                    visualTransformation = if (contrasenyaVisible) {
-                        VisualTransformation.None
-                    } else {
-                        PasswordVisualTransformation()
-                    },
-                    trailingIcon = {
-                        val image = if (contrasenyaVisible)
-                            Icons.Filled.Visibility
-                        else
-                            Icons.Filled.VisibilityOff
+                        TextField(
+                            value = contrasenya,
+                            onValueChange = { contrasenya = it },
+                            label = { Text("Contrasenya") },
+                            keyboardOptions = KeyboardOptions(
+                                keyboardType = KeyboardType.Password
+                            ),
+                            visualTransformation = if (contrasenyaVisible) {
+                                VisualTransformation.None
+                            } else {
+                                PasswordVisualTransformation()
+                            },
+                            trailingIcon = {
+                                val image = if (contrasenyaVisible)
+                                    Icons.Filled.Visibility
+                                else
+                                    Icons.Filled.VisibilityOff
 
-                        val descripcio = if (contrasenyaVisible) "Ocultar" else "Mostrar"
+                                val descripcio = if (contrasenyaVisible) "Ocultar" else "Mostrar"
 
-                        IconButton(onClick = { contrasenyaVisible = !contrasenyaVisible }) {
-                            Icon(imageVector = image, contentDescription = descripcio)
+                                IconButton(onClick = { contrasenyaVisible = !contrasenyaVisible }) {
+                                    Icon(imageVector = image, contentDescription = descripcio)
+                                }
+                            }
+                        )
+
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Button(
+                            onClick = {
+                                scope.launch {
+                                    val valid = comprovarLogin(usuari, contrasenya)
+                                    login.value = valid
+                                }
+                            },
+                            modifier = Modifier.align(Alignment.CenterHorizontally)
+                        ) {
+                            Text("Iniciar sessió")
                         }
                     }
-                )
-
-                Spacer(modifier = Modifier.height(8.dp))
-                Button(
-                    onClick = {
-                        scope.launch {
-                            val valid = comprovarLogin(usuari, contrasenya)
-                            usuari = if (valid) "be" else "error"
-                        }
-                    },
-                    modifier = Modifier.align(Alignment.CenterHorizontally)
-                ) {
-                    Text("Iniciar sessió")
                 }
             }
         }
     }
-}
