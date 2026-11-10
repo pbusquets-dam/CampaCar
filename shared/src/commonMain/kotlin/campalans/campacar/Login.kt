@@ -40,8 +40,11 @@ fun Login(){
     var contrasenyaVisible by remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
     var login = remember { mutableStateOf(false) }
+    var register = remember { mutableStateOf(false) }
         if (login.value) {
             Main()
+        }else if(register.value){
+            Register()
         } else {
             Scaffold {
                 Box(modifier = Modifier.fillMaxWidth().fillMaxHeight()) {
@@ -99,6 +102,16 @@ fun Login(){
                         Spacer(modifier = Modifier.height(8.dp))
                         Button(
                             onClick = {
+                                register.value = true;
+                            },
+
+                            modifier = Modifier.align(Alignment.CenterHorizontally)
+                        ) {
+                            Text("Iniciar sessió")
+                        }
+
+                        Button(
+                            onClick = {
                                 scope.launch {
                                     val valid = comprovarLogin(usuari, contrasenya)
                                     login.value = valid
@@ -106,7 +119,7 @@ fun Login(){
                             },
                             modifier = Modifier.align(Alignment.CenterHorizontally)
                         ) {
-                            Text("Iniciar sessió")
+                            Text("Registrar")
                         }
                     }
                 }
