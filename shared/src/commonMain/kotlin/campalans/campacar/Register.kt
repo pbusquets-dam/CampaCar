@@ -29,211 +29,215 @@ fun Register() {
     var mail by remember { mutableStateOf("") }
     var telf by remember { mutableStateOf("") }
     var passwd by remember { mutableStateOf("") }
-
+    var register = remember { mutableStateOf(false) }
     var passwdVisible by remember { mutableStateOf(false) }
 
     var missatge by remember { mutableStateOf("") }
 
     val scope = rememberCoroutineScope()
+    if (register.value) {
+        MainScreen()
+    }
+    else{
+            Scaffold { padding ->
 
-    Scaffold { padding ->
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(padding)
+                        .verticalScroll(rememberScrollState())
+                        .padding(20.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
 
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(padding)
-                .verticalScroll(rememberScrollState())
-                .padding(20.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-
-            Text(
-                "Registre",
-                style = MaterialTheme.typography.displayLarge
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            TextField(
-                value = nom,
-                onValueChange = { nom = it },
-                label = { Text("Nom") },
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Text
-                )
-            )
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            TextField(
-                value = cognom1,
-                onValueChange = { cognom1 = it },
-                label = { Text("Primer cognom") }
-            )
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            TextField(
-                value = cognom2,
-                onValueChange = { cognom2 = it },
-                label = { Text("Segon cognom") }
-            )
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            // Horari
-            Text("Horari")
-
-            Row(
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                RadioButton(
-                    selected = horari == "M",
-                    onClick = { horari = "M" }
-                )
-                Text("Matí")
-
-                RadioButton(
-                    selected = horari == "T",
-                    onClick = { horari = "T" }
-                )
-                Text("Tarda")
-
-                RadioButton(
-                    selected = horari == "D",
-                    onClick = { horari = "D" }
-                )
-                Text("Dia sencer")
-            }
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            // Rol
-
-            Text("Rol")
-
-            Column {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    RadioButton(
-                        selected = rol == "S",
-                        onClick = { rol = "S" }
+                    Text(
+                        "Registre",
+                        style = MaterialTheme.typography.displayLarge
                     )
-                    Text("Estudiant")
-                }
 
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    RadioButton(
-                        selected = rol == "A",
-                        onClick = { rol = "A" }
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    TextField(
+                        value = nom,
+                        onValueChange = { nom = it },
+                        label = { Text("Nom") },
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Text
+                        )
                     )
-                    Text("Administrador")
-                }
 
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    RadioButton(
-                        selected = rol == "P",
-                        onClick = { rol = "P" }
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    TextField(
+                        value = cognom1,
+                        onValueChange = { cognom1 = it },
+                        label = { Text("Primer cognom") }
                     )
-                    Text("Professor")
-                }
-            }
 
-            Spacer(modifier = Modifier.height(8.dp))
+                    Spacer(modifier = Modifier.height(8.dp))
 
-            // Cotxe
-            Row(
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Checkbox(
-                    checked = cotxe,
-                    onCheckedChange = { cotxe = it }
-                )
-                Text("Tinc cotxe")
-            }
+                    TextField(
+                        value = cognom2,
+                        onValueChange = { cognom2 = it },
+                        label = { Text("Segon cognom") }
+                    )
 
-            Spacer(modifier = Modifier.height(8.dp))
+                    Spacer(modifier = Modifier.height(8.dp))
 
-            TextField(
-                value = ubicacio,
-                onValueChange = { ubicacio = it },
-                label = { Text("Ubicació") }
-            )
+                    // Horari
+                    Text("Horari")
 
-            Spacer(modifier = Modifier.height(8.dp))
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        RadioButton(
+                            selected = horari == "M",
+                            onClick = { horari = "M" }
+                        )
+                        Text("Matí")
 
-            TextField(
-                value = mail,
-                onValueChange = { mail = it },
-                label = { Text("Correu electrònic") },
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Email
-                )
-            )
+                        RadioButton(
+                            selected = horari == "T",
+                            onClick = { horari = "T" }
+                        )
+                        Text("Tarda")
 
-            Spacer(modifier = Modifier.height(8.dp))
-
-            TextField(
-                value = telf,
-                onValueChange = { telf = it },
-                label = { Text("Telèfon") },
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Phone
-                )
-            )
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            TextField(
-                value = passwd,
-                onValueChange = { passwd = it },
-                label = { Text("Contrasenya") },
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Password
-                ),
-                visualTransformation = if (passwdVisible) {
-                    VisualTransformation.None
-                } else {
-                    PasswordVisualTransformation()
-                },
-                trailingIcon = {
-                    val image = if (passwdVisible) {
-                        Icons.Filled.Visibility
-                    } else {
-                        Icons.Filled.VisibilityOff
+                        RadioButton(
+                            selected = horari == "D",
+                            onClick = { horari = "D" }
+                        )
+                        Text("Dia sencer")
                     }
 
-                    IconButton(
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    // Rol
+
+                    Text("Rol")
+
+                    Column {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            RadioButton(
+                                selected = rol == "S",
+                                onClick = { rol = "S" }
+                            )
+                            Text("Estudiant")
+                        }
+
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            RadioButton(
+                                selected = rol == "A",
+                                onClick = { rol = "A" }
+                            )
+                            Text("Administrador")
+                        }
+
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            RadioButton(
+                                selected = rol == "P",
+                                onClick = { rol = "P" }
+                            )
+                            Text("Professor")
+                        }
+                    }
+
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    // Cotxe
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Checkbox(
+                            checked = cotxe,
+                            onCheckedChange = { cotxe = it }
+                        )
+                        Text("Tinc cotxe")
+                    }
+
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    TextField(
+                        value = ubicacio,
+                        onValueChange = { ubicacio = it },
+                        label = { Text("Ubicació") }
+                    )
+
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    TextField(
+                        value = mail,
+                        onValueChange = { mail = it },
+                        label = { Text("Correu electrònic") },
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Email
+                        )
+                    )
+
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    TextField(
+                        value = telf,
+                        onValueChange = { telf = it },
+                        label = { Text("Telèfon") },
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Phone
+                        )
+                    )
+
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    TextField(
+                        value = passwd,
+                        onValueChange = { passwd = it },
+                        label = { Text("Contrasenya") },
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Password
+                        ),
+                        visualTransformation = if (passwdVisible) {
+                            VisualTransformation.None
+                        } else {
+                            PasswordVisualTransformation()
+                        },
+                        trailingIcon = {
+                            val image = if (passwdVisible) {
+                                Icons.Filled.Visibility
+                            } else {
+                                Icons.Filled.VisibilityOff
+                            }
+
+                            IconButton(
+                                onClick = {
+                                    passwdVisible = !passwdVisible
+                                }
+                            ) {
+                                Icon(
+                                    imageVector = image,
+                                    contentDescription = "Mostrar contrasenya"
+                                )
+                            }
+                        }
+                    )
+
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    Button(
                         onClick = {
-                            passwdVisible = !passwdVisible
+
+                            scope.launch {
+
+                                var valid = ApiClient.registrarUsuari(nom, cognom1, cognom2, horari, rol, cotxe, ubicacio, mail, telf, passwd)
+                                register.value = valid
+
+                            }
                         }
                     ) {
-                        Icon(
-                            imageVector = image,
-                            contentDescription = "Mostrar contrasenya"
-                        )
-                    }
-                }
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Button(
-                onClick = {
-
-                    scope.launch {
-
-                        ApiClient.registrarUsuari(nom, cognom1, cognom2, horari, rol, cotxe, ubicacio, mail, telf, passwd)
-
+                        Text("Registrar-se")
                     }
 
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    Text(missatge)
                 }
-            ) {
-                Text("Registrar-se")
             }
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            Text(missatge)
         }
     }
-}

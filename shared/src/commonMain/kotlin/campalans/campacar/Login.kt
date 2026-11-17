@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
@@ -42,12 +43,12 @@ fun Login(){
     var login = remember { mutableStateOf(false) }
     var register = remember { mutableStateOf(false) }
         if (login.value) {
-            Main()
+            MainScreen()
         }else if(register.value){
             Register()
         } else {
-            Scaffold {
-                Box(modifier = Modifier.fillMaxWidth().fillMaxHeight()) {
+            Scaffold { innerPadding ->
+                Box(modifier = Modifier.fillMaxWidth().fillMaxHeight().padding()) {
                     Column(modifier = Modifier.align(Alignment.Center)) {
                         Text(
                             "Login",
