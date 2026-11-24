@@ -124,13 +124,7 @@ fun Register() {
                             Text("Estudiant")
                         }
 
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            RadioButton(
-                                selected = rol == "A",
-                                onClick = { rol = "A" }
-                            )
-                            Text("Administrador")
-                        }
+
 
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             RadioButton(
